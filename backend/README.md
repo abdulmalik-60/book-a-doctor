@@ -27,9 +27,9 @@ npm start
 
 ## Environment Variables
 
-Create a .env file in the backend directory:
+Create a .env file in the backend directory. Use either `MONGODB_URI` or `MONGO_URI` for the database connection string:
 
-env PORT=5000 MONGO_URI=your_mongodb_connection_string JWT_SECRET=your_jwt_secret 
+env PORT=5000 MONGODB_URI=mongodb://127.0.0.1:27017/book-a-doctor JWT_SECRET=your_jwt_secret JWT_EXPIRE=30d 
 
 ## API Endpoints
 

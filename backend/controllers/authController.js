@@ -14,10 +14,25 @@ const generateToken = (id) => {
 // @access  Public
 exports.register = async (req, res, next) => {
   try {
-    const { name, email, password, role, phone, gender, dob, address, specialization, experience, fees, bio, qualifications } = req.body;
+    const {
+      name,
+      email,
+      password,
+      role,
+      phone,
+      gender,
+      dob,
+      address,
+      specialization,
+      experience,
+      fees,
+      bio,
+      qualifications,
+    } = req.body;
+    const normalizedEmail = String(email || '').trim().toLowerCase();
 
     // Check if user already exists
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email: normalizedEmail });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
@@ -25,7 +40,7 @@ exports.register = async (req, res, next) => {
     // Create user base record
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password,
       role: role || 'patient',
       phone,
@@ -72,9 +87,10 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = String(email || '').trim().toLowerCase();
 
     // Get user and explicitly select password field
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email: normalizedEmail }).select('+password');
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
